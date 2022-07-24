@@ -104,8 +104,8 @@ func (m *Mcts) expand(n *Node) *Node {
 	return n
 }
 
-func (m *Mcts) rollout(s *State, n *node) float64 {
-	res := node{
+func (m *Mcts) rollout(s *amazonsChess.State, n *Node) float64 {
+	res := Node{
 		State: n.State,
 	}
 	var err error
@@ -124,7 +124,7 @@ func (m *Mcts) rollout(s *State, n *node) float64 {
 	}
 }
 
-func (m *Mcts) backupdate(Wins float64, n *node) *node {
+func (m *Mcts) backupdate(Wins float64, n *Node) *Node {
 	n.Visits++
 	n.Q += 1.0 * (Wins - n.Q) / float64(n.Visits)
 	for n.Parent != nil {
