@@ -104,12 +104,14 @@ func (m *Mcts) expand(n *Node) *Node {
 	return n
 }
 
-func (m *Mcts) rollout(s *amazonsChess.State, n *Node) float64 {
-	res := n
+func (m *Mcts) rollout(s *State, n *node) float64 {
+	res := node{
+		State: n.State,
+	}
 	var err error
 	for {
 		if res.State.GameOver() != 0 {
-			if s.CurrentPlayer == res.State.GameOver() {
+			if n.State.CurrentPlayer == -res.State.GameOver() {
 				return 1
 			} else {
 				return -1
@@ -120,13 +122,13 @@ func (m *Mcts) rollout(s *amazonsChess.State, n *Node) float64 {
 			log.Fatal(err)
 		}
 	}
-
 }
 
-func (m *Mcts) backupdate(Wins float64, n *Node) *Node {
+func (m *Mcts) backupdate(Wins float64, n *node) *node {
 	n.Visits++
 	n.Q += 1.0 * (Wins - n.Q) / float64(n.Visits)
 	for n.Parent != nil {
+		Wins = -Wins
 		n = n.Parent
 		n.Visits++
 		n.Q += 1.0 * (Wins - n.Q) / float64(n.Visits)
