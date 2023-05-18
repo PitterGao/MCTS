@@ -1,5 +1,4 @@
 # MCTS
-以下是一个go语言的蒙特卡洛树搜索的README.md模板：
 
 # 蒙特卡洛树搜索（Monte Carlo Tree Search）算法实现
 
